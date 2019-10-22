@@ -26,13 +26,8 @@ public class IOrderController {
     @ResponseBody
     public ServerResponse create(HttpSession session,Order order){
         User user=(User) session.getAttribute(Const.CURRENT_USER);
-        if(!user.getId().equals(order.getUserProfileId())){
-            log.info(order.getUserProfileId().toString());
-            log.info(user.getId().toString());
-            return ServerResponse.createByErrorMessage("invalid operation, try to alter others' order");
-        }
         order.setAcceptUserId(user.getId());
-        return iOrderService.createOrder(order);
+        return iOrderService.createOrder(order,user.getId());
     }
 
     @RequestMapping("list.do")

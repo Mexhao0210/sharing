@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface iOrderService {
-    ServerResponse createOrder(Order order);
+    ServerResponse createOrder(Order order, Integer uid);
     ServerResponse list(BigDecimal latitute, BigDecimal longitude, Integer uid);
     ServerResponse getOrderDetail(Long orderNo, Integer uid);
     ServerResponse changeOrderStatus(Long orderNo, Integer status, Integer uid);

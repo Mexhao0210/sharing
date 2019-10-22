@@ -36,10 +36,11 @@ public class iOrderImpl implements iOrderService {
     private UserMapper userMapper;
 
     @Override
-    public ServerResponse createOrder(Order order) {
+    public ServerResponse createOrder(Order order,Integer uid) {
         long orderNo=generateOrderNo();
         order.setOrderNo(orderNo);
         order.setStatus(Const.OrderStatusEnum.PUBLISHED.getCode());
+        order.setUserProfileId(uid);
         int result=orderMapper.insert(order);
         if(result==0){
             return ServerResponse.createByErrorMessage("create order failed");
