@@ -53,6 +53,13 @@ public class IUserController {
         return iUserService.get_user_info(user.getId());
     }
 
+    @RequestMapping("get_public.do")
+    @ResponseBody
+    public ServerResponse getUserInfo(HttpSession session, Integer uid){
+//        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        return iUserService.get_user_info(uid);
+    }
+
     @RequestMapping("update.do")
     @ResponseBody
     public ServerResponse update_info(HttpSession session,@RequestParam(required = false) String username,
