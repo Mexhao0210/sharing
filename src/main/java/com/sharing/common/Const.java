@@ -90,7 +90,7 @@ public class Const {
     }
 
     public interface PositionRange{
-        BigDecimal RANGE=new BigDecimal("0.001");
+        BigDecimal RANGE=new BigDecimal("0.01");
     }
 
     public interface PageSettings{

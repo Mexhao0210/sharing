@@ -113,9 +113,9 @@ public class iOrderImpl implements iOrderService {
         if(order==null){
             return ServerResponse.createByErrorMessage("no such order");
         }
-        if (!order.getUserProfileId().equals(uid)){
-            return ServerResponse.createByErrorMessage("illegal operation, try to get others' order detail");
-        }
+//        if (!order.getUserProfileId().equals(uid)){
+//            return ServerResponse.createByErrorMessage("illegal operation, try to get others' order detail");
+//        }
         OrderVo orderVo=assembleOrderVo(order);
         if(order.getAcceptUserId().equals(uid)){
             orderVo.setAcceptUserId(null);
