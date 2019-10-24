@@ -12,17 +12,25 @@ import com.sharing.dao.UserTagMapper;
 import com.sharing.pojo.Order;
 import com.sharing.pojo.User;
 import com.sharing.service.iOrderService;
+import com.sharing.util.DateTimeUtil;
 import com.sharing.vo.OrderVo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.schema.Server;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import static com.sharing.util.DateTimeUtil.STANDARD_FORMAT;
 
 @Slf4j
 @Service("iOrderService")
@@ -134,6 +142,10 @@ public class iOrderImpl implements iOrderService {
         order.setStatus(status);
         if(status.equals(Const.OrderStatusEnum.ACCEPTED.getCode())){
             order.setAcceptUserId(uid);
+            order.setAcceptTime(new Date());
+        }
+        if(status.equals(Const.OrderStatusEnum.ORDER_SUCCESS.getCode())){
+            order.setReturnTime(new Date());
         }
         int result=orderMapper.updateByPrimaryKeySelective(order);
         if (result==0){
@@ -169,6 +181,15 @@ public class iOrderImpl implements iOrderService {
         PageInfo pageInfo=new PageInfo();
         pageInfo.setList(result);
         return ServerResponse.createBySuccess(pageInfo);
+    }
+
+    public void closeOrder(int hour){
+        Date closeDateTime = DateUtils.addHours(new Date(),-hour);
+        List<Order> orderList=orderMapper.selectByCreateTime(Const.OrderStatusEnum.PUBLISHED.getCode(), DateTimeUtil.dateToStr(closeDateTime));
+        for (Order order:orderList){
+            orderMapper.closeOrder(order.getId());
+            log.info("Order: {} has been closed",order.getOrderNo());
+        }
     }
 
 }

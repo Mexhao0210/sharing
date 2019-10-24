@@ -39,7 +39,7 @@
       location_longitude, User_Profile_id, assets, 
       accept_user_id)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
-      #{description,jdbcType=VARCHAR}, #{tag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=VARCHAR}, #{tag,jdbcType=INTEGER}, now(),
       #{acceptTime,jdbcType=TIMESTAMP}, #{returnTime,jdbcType=TIMESTAMP}, #{locationLatitute,jdbcType=DECIMAL}, 
       #{locationLongitude,jdbcType=DECIMAL}, #{userProfileId,jdbcType=INTEGER}, #{assets,jdbcType=VARCHAR}, 
       #{acceptUserId,jdbcType=INTEGER})
@@ -210,6 +210,19 @@
     where order_no=#{orderNo}
   </select>
 
+  <select id="selectByCreateTime" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sharing.order
+    where status=#{status}
+    and create_time &lt; #{date}
+  </select>
+
+  <update id="closeOrder" parameterType="int">
+    update sharing.order
+    set status=20
+    where id=#{oid}
+  </update>
 
 
 

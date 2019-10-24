@@ -22,4 +22,8 @@ public interface OrderMapper {
     List<Order> selectList(@Param("latituteUp") BigDecimal latituteUp, @Param("latituteBot") BigDecimal latituteBot, @Param("longitudeUp") BigDecimal longitudeUp, @Param("longitudeBot") BigDecimal longitudeBot, @Param("tags") List<Integer> tags);
 
     Order selectByOrderNo(Long orderNo);
+
+    List<Order> selectByCreateTime(@Param("status") Integer status, @Param("date") String date);
+
+    int closeOrder(Integer oid);
 }
