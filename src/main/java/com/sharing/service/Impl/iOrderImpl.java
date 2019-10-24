@@ -202,7 +202,7 @@ public class iOrderImpl implements iOrderService {
         List<OrderVo> orderVoList=Lists.newArrayList();
         for (Order order:orders){
             OrderVo temp=assembleOrderVo(order);
-            orderVoList.add(temp);
+            if(order.getStatus()<20) orderVoList.add(temp);
         }
         PageInfo pageInfo=new PageInfo();
         pageInfo.setList(orderVoList);
