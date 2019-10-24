@@ -1,5 +1,6 @@
 package com.sharing.service.Impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -190,6 +191,22 @@ public class iOrderImpl implements iOrderService {
             orderMapper.closeOrder(order.getId());
             log.info("Order: {} has been closed",order.getOrderNo());
         }
+    }
+
+    public ServerResponse getUserOrders(Integer uid){
+        List<Order> orders=orderMapper.selectPublishedByUid(uid);
+        if (orders.isEmpty()){
+            return ServerResponse.createBySuccess("no available order");
+        }
+        PageHelper.startPage(Const.PageSettings.PAGE_NUMBER,Const.PageSettings.PAGE_SIZE);
+        List<OrderVo> orderVoList=Lists.newArrayList();
+        for (Order order:orders){
+            OrderVo temp=assembleOrderVo(order);
+            orderVoList.add(temp);
+        }
+        PageInfo pageInfo=new PageInfo();
+        pageInfo.setList(orderVoList);
+        return ServerResponse.createBySuccess(pageInfo);
     }
 
 }

@@ -13,4 +13,5 @@ public interface iOrderService {
     ServerResponse changeOrderStatus(Long orderNo, Integer status, Integer uid);
     ServerResponse getCandidates(Long orderNo,Integer uid);
     void closeOrder(int hour);
+    ServerResponse getUserOrders(Integer uid);
 }

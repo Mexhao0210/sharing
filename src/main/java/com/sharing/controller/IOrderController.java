@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -56,6 +57,13 @@ public class IOrderController {
     public ServerResponse getCandidates(HttpSession session,Long orderNo){
         User user=(User) session.getAttribute(Const.CURRENT_USER);
         return iOrderService.getCandidates(orderNo,user.getId());
+    }
+
+    @RequestMapping("get_user_orders.do")
+    @ResponseBody
+    public ServerResponse getUserOrders(HttpSession session){
+        User user=(User) session.getAttribute(Const.CURRENT_USER);
+        return  iOrderService.getUserOrders(user.getId());
     }
 
 }

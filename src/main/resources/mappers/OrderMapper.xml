@@ -224,6 +224,14 @@
     where id=#{oid}
   </update>
 
+  <select id="selectPublishedByUid" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sharing.order
+    where User_Profile_id=#{uid}
+    or accept_user_id=#{uid}
+  </select>
+
 
 
 </mapper>
